@@ -5,11 +5,17 @@ TARGET := disk-analyse
 
 LIBS := -L../libdisk -ldisk
 
-all:
+LIBS_STATIC := ../libdisk/libdisk.a
+
+all: 
 	$(MAKE) $(TARGET)
+	$(MAKE) disk-analyse.static
 
 disk-analyse: disk-analyse.o config.o
 	$(CC) $(CFLAGS) $^ $(LIBS) -o $@
+
+disk-analyse.static: disk-analyse.o config.o
+	$(CC) $(CFLAGS) $^ $(LIBS_STATIC) -o $@
 
 install: all
 	$(INSTALL_DIR) $(BINDIR)
@@ -20,4 +26,4 @@ install: all
 config.o: CFLAGS += -DPREFIX=\"$(PREFIX)\"
 
 clean::
-	$(RM) $(TARGET)
+	$(RM) $(TARGET) disk-analyse.static

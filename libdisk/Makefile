@@ -37,17 +37,11 @@ LIBS-$(caps) := -ldl
 LIBS += $(LIBS-y)
 
 all:
-ifneq ($(SHARED_LIB),n)
-	$(MAKE) -C stream streams.apic
-	$(MAKE) -C container containers.apic
-	$(MAKE) -C format formats.apic
+	$(MAKE) -C stream streams.apic streams.o
+	$(MAKE) -C container containers.apic containers.o
+	$(MAKE) -C format formats.apic formats.o
 	$(MAKE) $(SOVERS)
-else
-	$(MAKE) -C stream streams.o
-	$(MAKE) -C container containers.o
-	$(MAKE) -C format formats.o
 	$(MAKE) libdisk.a
-endif
 
 libdisk.a: $(OBJS) stream/streams.o container/containers.o format/formats.o
 	$(AR) rcs $@ $^
@@ -76,3 +70,4 @@ clean::
 	$(MAKE) -C stream clean
 	$(MAKE) -C container clean
 	$(MAKE) -C format clean
+	$(RM) $(SOVERS) $(SONAME) $(SOLIB)
