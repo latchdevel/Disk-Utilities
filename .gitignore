@@ -21,6 +21,7 @@ Thumbs.db
 *.o
 *.obj
 *.opic
+*.apic
 
 # Precompiled Headers
 *.gch
