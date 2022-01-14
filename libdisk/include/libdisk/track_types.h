@@ -41,6 +41,7 @@ X(acorn_adfs_f,           "Acorn ADFS '1600K F'")
 X(siemens_isdx_hd,        "Siemens iSDX high-density")
 X(microsoft_dmf_hd,       "Microsoft DMF")
 X(trace_traceback_hd,     "Trace TRACEBACK duplicator info (HD)")
+X(atari_st_720kb,         "Atari ST 720kB")
 
 // From libdisk/format/amiga/amigados.c
 X(amigados,               "AmigaDOS")
