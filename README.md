@@ -13,18 +13,24 @@ Dynamic and static builds for Windows, Linux and macOS.
 The disk image conversion tool. 
 Dynamic and static builds for Windows, Linux and macOS.
   * Read/Write support: 
-    * SPS/IPF 
-    * ADF, Extended ADF 
+    * Amiga Disk File (.ADF) and Extended ADF (.EADF)
     * LibDisk (.DSK) 
     * Supercard Pro (.SCP) 
     * ImageDisk (.IMD) 
-    * Sector Image (.IMG) 
+    * IBM-MFM Sector Image Dump (.IMG) 
     * HxC Floppy Emulator (.HFE) (orig,v3)
+    * Atari ST Sector Dump (.ST)
   * Read-Only support: 
-    * Kryoflux STREAM 
-    * DiscFerret (.DFI) 
+    * Kryoflux STREAM (.RAW)
+    * DiscFerret (.DFI)
     * Amiga diskread (.DAT) 
-    * SPS/CTRaw
+
+### Building & Installing
+```
+  # make clean
+  # make
+  # sudo make install
+```
 
 ### Usage
 ```
@@ -75,8 +81,32 @@ T79.0-79.1: IBM-MFM DD (8 512-byte sectors, 4096 bytes)
 T80.0-83.1: Unformatted
 ```
 
-### Generic formats
+### Supported disk image formats
 ```
+###############
+# Amiga Formats
+probe_amiga
+    * amigados copylock
+
+amigados
+    * amigados
+
+amigados_varrate
+    * amigados_varrate
+
+rnc_dualformat
+    0 rnc_dualformat
+    * amigados ibm_pc_dd_10sec rnc_dualformat_empty
+
+rnc_triformat
+    0 rnc_triformat
+    * amigados ibm_pc_dd
+
+softlock_dualformat
+    0 softlock_dualformat
+    * amigados ibm_pc_dd
+
+################################################################
 # IBM-MFM Fully-Defined Formats (sector numbering/sizing/layout)
 
 # 5.25-inch and 3.5-inch double density (360K and 720K)
@@ -98,9 +128,6 @@ ibm_pc_hd_5_25
 ibm_pc_ed
     * ibm_pc_ed
 
-sega_system_24
-    * sega_system_24
-
 siemens_isdx_hd
     * siemens_isdx_hd
 
@@ -120,9 +147,13 @@ acorn_adfs_d_e
 acorn_adfs_f
     * acorn_adfs_f
 
-# Atari ST
+# Atari ST (generic)
 atari_st
     * ibm_mfm_dd
+
+# Atari ST (720K)
+atari_st_720kb
+    * atari_st_720kb
 
 ##########################################################
 # IBM-MFM Generic Formats (auto-detect sector arrangement)
