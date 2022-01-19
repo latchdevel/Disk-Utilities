@@ -109,8 +109,16 @@ set_target_properties( ${PROJECT_NAME}-dynamic PROPERTIES
 		VERSION   ${CU_VERSION}
 )
 
-# Add install targets
-install(TARGETS ${PROJECT_NAME}-dynamic DESTINATION lib)
+# Add install static library and public headers
+FILE ( GLOB LIBRARY_HEADERS include/libdisk/*.h )
+set_target_properties( ${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${LIBRARY_HEADERS}")
+install( TARGETS ${PROJECT_NAME} 
+         LIBRARY DESTINATION lib
+         PUBLIC_HEADER DESTINATION include/libdisk
+)
+
+# Add install dynamic library (with namelink)
+install( TARGETS ${PROJECT_NAME}-dynamic DESTINATION lib )
 
 # If no has parent directory, add uninstall targets
 if(NOT hasParent)
