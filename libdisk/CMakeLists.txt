@@ -22,8 +22,33 @@ set(SO_VERSION ${MAJOR_VERSION} )                 # compatibility version
 # Set C Standard
 set(CMAKE_C_STANDARD 99)
 
-# Set C FLAGS
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O2 -Wall -Wextra -Wno-unused-parameter -fcommon -fno-strict-aliasing -fvisibility=hidden")
+# Set default build type to "release".
+set(DEFAULT_BUILD_TYPE "release")
+
+# Checking for CMAKE_BUILD_TYPE
+if(NOT CMAKE_BUILD_TYPE)
+  # Set default build type
+  set(CMAKE_BUILD_TYPE ${DEFAULT_BUILD_TYPE})
+else()
+  # Check if set a valid CMAKE_BUILD_TYPE ('release' or 'debug')
+  STRING( TOLOWER "${CMAKE_BUILD_TYPE}" CMAKE_BUILD_TYPE )
+  if(NOT((CMAKE_BUILD_TYPE STREQUAL "debug") OR (CMAKE_BUILD_TYPE STREQUAL "release")))
+    # Exit error
+    MESSAGE( FATAL_ERROR "If set CMAKE_BUILD_TYPE it must be 'release' or 'debug'")
+  endif()
+endif()
+
+# Show build type if not has parent directory
+if(NOT hasParent)
+    MESSAGE( STATUS "Build type set to: " ${CMAKE_BUILD_TYPE} )
+endif()
+
+# Set "debug" and "release" specific C compiler flags
+set(CMAKE_C_FLAGS_RELEASE "-O2 -DNDEBUG")                      # Default "-O3 -DNDEBUG"
+set(CMAKE_C_FLAGS_DEBUG   "-O0 -g -DDEBUG -fsanitize=address") # Default "-g"
+
+# Set common C compiler flags
+set(CMAKE_C_FLAGS "-Wall -Wextra -Wno-unused-parameter -fcommon -fno-strict-aliasing -fvisibility=hidden")
 
 # Add main library sources
 FILE (GLOB ${PROJECT_NAME}_SRC *.c )
