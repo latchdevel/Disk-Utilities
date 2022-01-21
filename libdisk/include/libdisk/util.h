@@ -27,12 +27,12 @@
 #endif
 #endif
 
-#if !defined(__MINGW32__)
+#if !defined(__MINGW32__) && !defined(_MSC_VER)
 #define __PLATFORM_HAS_ERR_H__
 #include <err.h>
 #endif
 
-#if !defined(__MINGW32__)
+#if !defined(__MINGW32__) && !defined(_MSC_VER)
 #define file_open(p,f,m...) open(p,(f),##m)
 #define posix_mkdir(p,m) mkdir(p,m)
 #else

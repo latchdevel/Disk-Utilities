@@ -48,7 +48,27 @@ set(CMAKE_C_FLAGS_RELEASE "-O2 -DNDEBUG")                      # Default "-O3 -D
 set(CMAKE_C_FLAGS_DEBUG   "-O0 -g -DDEBUG -fsanitize=address") # Default "-g"
 
 # Set common C compiler flags
-set(CMAKE_C_FLAGS "-Wall -Wextra -Wno-unused-parameter -fcommon -fno-strict-aliasing -fvisibility=hidden")
+set(CMAKE_C_FLAGS "-Wall")
+
+# Set C compiler-dependent flags
+if(MSVC)
+  set(MSVC_DISABLED_WARNINGS_LIST
+    "C4996" # warning C4996: 'may be unsafe/disable deprecation'
+            # To disable deprecation, use _CRT_SECURE_NO_WARNINGS.
+    "C4244" # warning C4244: '=': conversion from '__int64' to 'int', possible loss of data
+    "C4267" # warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+    "C4305" # warning C4305: '=': truncation from 'int' to 'uint16_t'
+    "C5105" # warning C5105: macro expansion producing 'defined' has undefined behavior
+    "C4201" # warning C4201: nonstandard extension used: nameless struct/union
+    "C4473" # warning C4473: 'printf' : not enough arguments passed for format string
+    "C4100" # warning C4100: unreferenced formal parameter
+    "C4706" # warning C4706: assignment within conditional expression
+  )
+  string(REPLACE "C" " -wd" MSVC_DISABLED_WARNINGS_STR ${MSVC_DISABLED_WARNINGS_LIST})
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -W4 ${MSVC_DISABLED_WARNINGS_STR}")
+else()
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wextra -Wno-unused-parameter -fcommon -fno-strict-aliasing -fvisibility=hidden")
+endif()
 
 # Add main library sources
 FILE (GLOB ${PROJECT_NAME}_SRC *.c )
@@ -99,6 +119,11 @@ add_library(
 
 # Add include directory
 target_include_directories( ${PROJECT_NAME}-obj PRIVATE include/ )
+
+# Add endian conversion functions form endian.h on Windows
+if(MSVC)
+    target_include_directories( ${PROJECT_NAME}-obj PRIVATE endian/ )
+endif()
 
 # Shared libraries require compiles for "Independent Position Code" (PIC). Add compiler flag "-fPIC"
 set_target_properties( ${PROJECT_NAME}-obj PROPERTIES POSITION_INDEPENDENT_CODE TRUE )
