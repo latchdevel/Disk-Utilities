@@ -78,9 +78,9 @@ if(NOT CMAKE_SYSTEM_NAME_UPPER MATCHES "BSD")
   set_target_properties( ${PROJECT_NAME} PROPERTIES ENABLE_EXPORTS TRUE ) 
 endif()
 
-# Build static executable if possible
+# Build stripped static executable if possible
 if( (NOT (CMAKE_SYSTEM_NAME MATCHES "Darwin" OR MSVC)) AND (NOT (CMAKE_BUILD_TYPE STREQUAL "debug")))
-  set( CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static" )
+  set( CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static -s" )
 endif()
 
 # Add link to libdisk library target: "disk" for static link (instead "disk-dynamic")
