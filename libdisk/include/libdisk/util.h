@@ -35,13 +35,23 @@
 #if !defined(__MINGW32__) && !defined(_MSC_VER)
 #define file_open(p,f,m...) open(p,(f),##m)
 #define posix_mkdir(p,m) mkdir(p,m)
+#elif defined(_MSC_VER)
+#define file_open(p,f, ...) open(p,(f), ##__VA_ARGS__)
+#define posix_mkdir(p,m) mkdir(p)
+#define O_RDONLY         00
+#define O_WRONLY         01
+#define O_RDWR           02
 #else
 #define file_open(p,f,m...) open(p,(f)|O_BINARY,##m)
 #define posix_mkdir(p,m) mkdir(p)
 #define localtime_r(pt,ptm) (*(ptm) = *localtime(pt)) /* not thread-safe */
 #endif
 
+#if !defined(_MSC_VER)
 #define __initcall __attribute__((constructor))
+#else
+#define __initcall
+#endif
 
 #ifndef offsetof
 #define offsetof(a,b) __builtin_offsetof(a,b)
@@ -51,7 +61,12 @@
         (type *)( (char *)__mptr - offsetof(type,member) );})
 #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
 
+#if !defined(_MSC_VER)
 void __bug(const char *file, int line) __attribute__((noreturn));
+#else
+void __bug(const char *file, int line);
+#endif
+
 #define BUG() __bug(__FILE__, __LINE__)
 #define BUG_ON(p) do { if (p) BUG(); } while (0)
 
