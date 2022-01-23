@@ -81,17 +81,21 @@ void __warn(const char *file, int line);
 #define WARN() __warn(__FILE__, __LINE__)
 #define WARN_ON(p) do { if (p) WARN(); } while (0)
 
+#ifndef min(x,y)
 #define min(x,y) ({                             \
     const typeof(x) _x = (x);                   \
     const typeof(y) _y = (y);                   \
     (void) (&_x == &_y);                        \
     _x < _y ? _x : _y; })
+#endif
 
+#ifndef max(x,y)
 #define max(x,y) ({                             \
     const typeof(x) _x = (x);                   \
     const typeof(y) _y = (y);                   \
     (void) (&_x == &_y);                        \
     _x > _y ? _x : _y; })
+#endif
 
 #define min_t(type,x,y) \
     ({ type __x = (x); type __y = (y); __x < __y ? __x: __y; })
