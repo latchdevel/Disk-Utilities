@@ -10,9 +10,9 @@
 #define cyl(trk) ((trk)/2)
 #define hd(trk) ((trk)&1)
 
-#define trk_warn(ti,trk,msg,a...)                                   \
+#define trk_warn(ti,trk,msg, ...)                                   \
     fprintf(stderr, "*** T%u.%u: %s: " msg "\n", cyl(trk), hd(trk), \
-           (ti)->typename, ## a)
+           (ti)->typename, ##__VA_ARGS__)
 
 #endif /* __PRIVATE_UTIL_H__ */
 
