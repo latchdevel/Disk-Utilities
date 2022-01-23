@@ -58,6 +58,8 @@ if(MSVC)
     "C4473" # warning C4473: 'printf' : not enough arguments passed for format string
     "C4100" # warning C4100: unreferenced formal parameter
     "C4706" # warning C4706: assignment within conditional expression
+    "C4005" # warning C4005: macro redefinition
+    "C4068" # warning C4068: unknown pragma
   )
   string(REPLACE "C" " -wd" MSVC_DISABLED_WARNINGS_STR ${MSVC_DISABLED_WARNINGS_LIST})
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -W4 ${MSVC_DISABLED_WARNINGS_STR}")
