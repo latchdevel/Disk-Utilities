@@ -56,9 +56,16 @@
 #ifndef offsetof
 #define offsetof(a,b) __builtin_offsetof(a,b)
 #endif
+
+/*
 #define container_of(ptr, type, member) ({                      \
         typeof( ((type *)0)->member ) *__mptr = (ptr);          \
         (type *)( (char *)__mptr - offsetof(type,member) );})
+*/
+
+#define container_of(ptr, type, member) \
+        ((type *)((unsigned char*)(ptr) - offsetof(type, member)))
+
 #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
 
 #if !defined(_MSC_VER)
