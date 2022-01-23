@@ -115,7 +115,7 @@ static void emit(uint16_t *dat, unsigned int *p_j, uint32_t cell,
     }
 
     /* Final sample: everything else; mbnz (zero is special). */
-    dat[j++] = cell ?: 1;
+    dat[j++] = cell ? cell : 1;
 
     *p_j = j;
 }
@@ -214,7 +214,7 @@ static void scp_close(struct disk *d)
         }
 
         for (i = 0; i < j; i++) {
-            thdr.duration += dat[i] ?: 0x10000u;
+            thdr.duration += dat[i] ? dat[i] : 0x10000u;
             dat[i] = htobe16(dat[i]);
         }
 

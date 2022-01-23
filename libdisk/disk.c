@@ -85,7 +85,7 @@ struct disk *disk_create(const char *name, unsigned int flags)
     d->fd = fd;
     d->read_only = 0;
     d->kryoflux_hack = !!(flags & DISKFL_kryoflux_hack);
-    d->rpm = rpm ?: DEFAULT_RPM;
+    d->rpm = rpm ? rpm : DEFAULT_RPM;
     d->container = c;
 
     c->init(d);
@@ -112,7 +112,7 @@ struct disk *disk_open(const char *name, unsigned int flags)
     d->fd = fd;
     d->read_only = read_only;
     d->kryoflux_hack = !!(flags & DISKFL_kryoflux_hack);
-    d->rpm = rpm ?: DEFAULT_RPM;
+    d->rpm = rpm ? rpm : DEFAULT_RPM;
     d->container = c->open(d);
 
     if (!d->container) {
@@ -407,7 +407,7 @@ void track_get_format_name(
     if (thnd->get_name)
         thnd->get_name(d, tracknr, str, size);
     else
-        snprintf(str, size, "%s", ti->typename ?: "???");
+        snprintf(str, size, "%s", ti->typename ? ti->typename : "???");
 }
 
 int is_valid_sector(struct track_info *ti, unsigned int sector)

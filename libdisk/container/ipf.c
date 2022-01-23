@@ -339,7 +339,7 @@ static bool_t __ipf_close(struct disk *d, uint32_t encoder)
 
         if ((int)ti->total_bits < 0) {
             /* Unformatted tracks are handled by the IPF decoder library. */
-            img->dentype = img->dentype ?: denNoise;
+            img->dentype = img->dentype ? img->dentype : denNoise;
         } else {
             /* Basic track metadata. */
             img->dentype = 

@@ -373,7 +373,7 @@ static void *ibm_mfm_write_raw(
     gap_bits = ti->total_bits - s->track_len_bc;
     for (cur_sec = ibm_secs; cur_sec; cur_sec = cur_sec->next) {
         int distance, cur_size;
-        next_sec = cur_sec->next ?: ibm_secs;
+        next_sec = cur_sec->next ? cur_sec->next : ibm_secs;
         distance = next_sec->offset - cur_sec->offset;
         if (distance <= 0)
             distance += s->track_len_bc;
@@ -895,7 +895,7 @@ static void *ibm_fm_write_raw(
     gap_bits = ti->total_bits - s->track_len_bc;
     for (cur_sec = ibm_secs; cur_sec; cur_sec = cur_sec->next) {
         int distance, cur_size;
-        next_sec = cur_sec->next ?: ibm_secs;
+        next_sec = cur_sec->next ? cur_sec->next : ibm_secs;
         distance = next_sec->offset - cur_sec->offset;
         if (distance <= 0)
             distance += s->track_len_bc;

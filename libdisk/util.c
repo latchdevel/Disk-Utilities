@@ -39,7 +39,7 @@ void filename_extension(const char *filename, char *extension, size_t size)
 
 void *memalloc(size_t size)
 {
-    void *p = malloc(size?:1);
+    void *p = malloc(size ? size : 1);
     if (p == NULL)
         err(1, NULL);
     memset(p, 0, size);

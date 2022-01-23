@@ -53,8 +53,8 @@ void stream_setup(
 {
     memset(s, 0, sizeof(*s));
     s->type = st;
-    s->drive_rpm = drive_rpm ?: data_rpm ?: 300;
-    s->data_rpm = data_rpm ?: drive_rpm ?: 300;
+    s->drive_rpm = drive_rpm ? drive_rpm : data_rpm ? data_rpm : 300;
+    s->data_rpm = data_rpm ? data_rpm : drive_rpm ? drive_rpm : 300;
     s->pll_period_adj_pct = DEFAULT_PERIOD_ADJ_PCT;
     s->pll_phase_adj_pct = DEFAULT_PHASE_ADJ_PCT;
     s->clock = s->clock_centre = CLOCK_CENTRE;
